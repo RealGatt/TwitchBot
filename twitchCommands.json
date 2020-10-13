@@ -1,0 +1,35 @@
+{
+    "commands": [{
+            "command": "!imposter",
+            "cooldown": 1,
+            "cooldown-type": "user",
+            "mod-only": false,
+            "response-type": "eval",
+            "response": "var imposter = Math.random() > 0.5; if (user === \"gatt_au\") imposter = false; if (imposter) chatClient.timeout(channel, user, 10, \"They were an imposter!\"); \"@\" + user + \" was\" + (imposter ? \" an imposter!\" : \" not an imposter!\");"
+        },
+        {
+            "command": "!sadge",
+            "cooldown": 1,
+            "cooldown-type": "global",
+            "mod-only": false,
+            "response-type": "simple",
+            "response": "ヽヽ｀ヽ｀、ヽヽ｀ヽ｀、ヽヽ｀ヽ、ヽヽ｀ヽ｀、ヽヽ｀ヽ｀、｀ヽ｀、ヽヽ｀ヽ｀、ヽヽ｀ヽ PepeHands ヽ｀ヽ｀、ヽヽ｀、ヽヽ｀ヽ｀、ヽヽ｀ヽ｀、｀ヽ｀、ヽヽ｀ヽ｀、ヽヽ｀ヽ｀、ヽヽ｀ヽ｀、ヽヽ、ヽヽ｀ヽ、ヽヽ"
+        },
+        {
+            "command": "!ping",
+            "cooldown": -1,
+            "cooldown-type": "user",
+            "mod-only": false,
+            "response-type": "simple",
+            "response": "@$USER Pong!"
+        },
+        {
+            "command": "!mod",
+            "cooldown": -1,
+            "cooldown-type": "user",
+            "mod-only": true,
+            "response-type": "simple",
+            "response": "@$USER is a cool mod person"
+        }
+    ]
+}

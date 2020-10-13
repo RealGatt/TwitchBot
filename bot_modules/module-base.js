@@ -1,8 +1,8 @@
 'use strict';
 
 export default class ModuleBase {
-    constructor(name) {
-        this.name = name;
+    constructor() {
+        this.name = "SETME";
     }
     async bootModule() {
         console.log("Something has called bootModule");

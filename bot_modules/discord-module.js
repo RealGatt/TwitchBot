@@ -7,6 +7,11 @@ import ModuleBase from "./module-base.js";
 import DiscordJS from "discord.js";
 
 export default class DiscordModule extends ModuleBase {
+    constructor() {
+        super();
+        this.name = "DISCORD";
+    }
+
     async bootModule() {
         console.log("Discord Module Booted");
     }

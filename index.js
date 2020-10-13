@@ -9,26 +9,46 @@ import websocket from "websocket";
 export const botConfig = JSON.parse(fs.readFileSync("./config.json"));
 
 import ModuleManager from "./bot_modules/module-manager.js";
-import TwitchModule from "./bot_modules/twitch-module.js";
-import DiscordModule from "./bot_modules/discord-module.js";
 
+console.log("Booting " + botConfig.version + " using Node v " + process.version);
 
-console.log("Booting " + botConfig.version);
 
 // add modules here
 
 const moduleManager = new ModuleManager();
 
+fs.readdir("./bot_modules", (err, files)=>{
+    if (err) console.log(err);
+    for (const subDir of files){
+        if (subDir.endsWith("-module.js")) {
+            import(`./bot_modules/${subDir}`).then((module)=>{
+                const moduleInstance = new module.default();
+                moduleManager.registerModule(moduleInstance);
+                moduleInstance.bootModule();
+            });
+        } 
+    }
+});
 
-moduleManager.registerModule(new TwitchModule("Twitch"));
-moduleManager.registerModule(new DiscordModule("Discord"));
-
-for (const moduleI of moduleManager.getModules()) moduleI.bootModule();
 
 
 
 
+/*
 
+. 　　　。　　　　•　 　ﾟ　　。 　　.
+
+　　　.　　　 　　.　　　　　。　　 。　. 　
+
+.　　 。　　　　　 ඞ 。 . 　　 • 　　　　•
+
+　　ﾟ　　 Gatt was not An Impostor.　 。　.
+
+　　'　　　 1 Impostor remains 　 　　。
+
+　　ﾟ　　　.　　　. ,　　　　.　 .
+
+*/
 
 
 
@@ -36,7 +56,7 @@ function shutdownModules() {
     for (const moduleI of moduleManager.getModules()) moduleI.shutdownModule();
 }
 
-process.on('uncaughtException', function(err) {
+process.on('uncaughtException', function (err) {
     console.log('Caught exception: ' + err);
 });
 
@@ -44,6 +64,6 @@ process.on('SIGINT', () => {
     shutdownModules();
 });
 
-process.on('exit', function(code) {
+process.on('exit', function (code) {
     shutdownModules();
 });

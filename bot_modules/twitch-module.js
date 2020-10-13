@@ -15,6 +15,8 @@ import {
 import {
     ChatClient
 } from "twitch-chat-client";
+import fs from "fs";
+import localStorage from "node-localstorage";
 
 const instance = this;
 
@@ -24,6 +26,11 @@ var channel;
 var connectTime;
 
 export default class TwitchModule extends ModuleBase {
+    constructor() {
+        super();
+        this.name = "TWITCH";
+    }
+
     async bootModule() {
         username = botConfig.twitch.botUsername;
         channel = botConfig.twitch.channel;
@@ -49,7 +56,7 @@ export default class TwitchModule extends ModuleBase {
                     botConfig.twitch.oauthToken = accessToken;
                     botConfig.twitch.refreshToken = refreshToken;
                     botConfig.twitch.expiryTimestamp = expiryDate === null ? null : expiryDate.getTime();
-                    botMain.fs.writeFileSync("./config.json", JSON.stringify(botConfig, null, 4));
+                    fs.writeFileSync("./config.json", JSON.stringify(botConfig, null, 4));
                     await this.bootModule();
                 }
             }
@@ -60,13 +67,33 @@ export default class TwitchModule extends ModuleBase {
         });
         await chatClient.connect().then(() => {
 
-            if (chatClient.isConnected) console.log("Connected to Twitch Chat as " + chatClient.currentNick);
-            else console.log("Not connected to Twitch Chat");
-
             chatClient.onMessage(async(sentChannel, user, msg) => {
                 if (sentChannel == channel) {
                     if (msg.startsWith("!ping")) {
                         await this.action("Pong! @" + user);
+                    } else if (msg.startsWith("!imposter")) {
+
+                        var imposter = Math.random() > 0.5;
+                        if (user.toLowerCase() === "gatt_au") imposter = false;
+
+                        var msg =
+                            ". 。 • ﾟ 。 . . 。. 。 • ﾟ 。 . . 。ඞ . 。 • ﾟ 。 . . 。. 。 • ﾟ 。 . . 。 " +
+                            "@" + user + (imposter ? " was an Imposter" : " was not an Imposter") + " gattauWave . 。 • ﾟ 。 . . 。" +
+                            ". 。 • ﾟ 。 . . 。. 。 • ﾟ 。 . . 。";
+
+                        await this.action(msg);
+                        if (imposter) await chatClient.timeout(channel, user, 10, "They were an imposter");
+                    } else if (msg.startsWith("!sadge")) {
+                        var msg = "ヽヽ｀ヽ｀、ヽヽ｀ヽ｀、ヽヽ｀ヽ、ヽヽ｀ヽ｀、ヽヽ｀ヽ｀、｀ヽ｀、ヽヽ｀ヽ｀、ヽヽ｀ヽ PepeHands ヽ｀ヽ｀、ヽヽ｀、ヽヽ｀ヽ｀、ヽヽ｀ヽ｀、｀ヽ｀、ヽヽ｀ヽ｀、ヽヽ｀ヽ｀、ヽヽ｀ヽ｀、ヽヽ、ヽヽ｀ヽ、ヽヽ";
+                        await this.action(msg);
+                    } else if (user === "gatt_au" && msg.startsWith("!eval ")) {
+                        var evald = msg.replace("!eval ", "");
+                        try {
+                            var returned = eval(evald);
+                            await this.action(returned);
+                        } catch (e) {
+                            await this.action(e);
+                        }
                     }
                 }
             });
@@ -74,6 +101,8 @@ export default class TwitchModule extends ModuleBase {
             chatClient.onJoin(async(chnl) => {
                 if (chnl == channel) {
                     connectTime = new Date();
+                    if (chatClient.isConnected) console.log("Connected to Twitch Chat as " + chatClient.currentNick);
+                    else console.log("Not connected to Twitch Chat");
                     await this.action(botConfig.twitch.connectedMessage);
                 }
             });
