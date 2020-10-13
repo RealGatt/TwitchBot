@@ -1,10 +1,17 @@
 'use strict';
+
+console.log = function(msg){
+    process.stdout.write(msg + "\n");
+}
+
 export const botMain = this;
 
-import localStorage from "node-localstorage";
+import { JSONStorage } from "node-localstorage";
 import fs from "fs";
 import obs from "obs-websocket-js";
 import websocket from "websocket";
+
+const localStorage = new JSONStorage("./localStorage");
 
 export const botConfig = JSON.parse(fs.readFileSync("./config.json"));
 
@@ -14,6 +21,7 @@ console.log("Booting " + botConfig.version + " using Node v " + process.version)
 // add modules here
 
 const moduleManager = new ModuleManager();
+
 
 fs.readdir("./bot_modules", (err, files)=>{
     if (err) console.log(err);
@@ -27,9 +35,6 @@ fs.readdir("./bot_modules", (err, files)=>{
         } 
     }
 });
-
-
-
 
 
 /*
@@ -48,6 +53,10 @@ fs.readdir("./bot_modules", (err, files)=>{
 
 */
 
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 
 function shutdownModules() {
