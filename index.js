@@ -1,40 +1,29 @@
-'use strict'
-const index = this;
-index.toString = function() {
-    return "index";
-}
-const config = require("./config.json");
+'use strict';
+export const botMain = this;
 
-const localStorage = require("node-localstorage");
-const fs = require("fs");
-const obs = require("obs-websocket-js");
-const websocket = require("websocket");
-const ModuleManager = require("./bot_modules/ModuleManager.js");
+import localStorage from "node-localstorage";
+import fs from "fs";
+import obs from "obs-websocket-js";
+import websocket from "websocket";
 
-console.log("Booting " + config.version);
+export const botConfig = JSON.parse(fs.readFileSync("./config.json"));
+
+import { ModuleManager } from "./bot_modules/module-manager.js";
+import { TwitchModule } from "./bot_modules/twitch-module.js";
+import { DiscordModule } from "./bot_modules/discord-module.js";
+
+
+console.log("Booting " + botConfig.version);
 
 // add modules here
 
 const moduleManager = new ModuleManager();
 
-module.exports = {
-    localStorage,
-    fs,
-    obs,
-    websocket,
-    config,
-    moduleManager
-};
-
-const TwitchModule = require("./bot_modules/twitch-module.js");
-const DiscordModule = require("./bot_modules/discord-module.js");
 
 moduleManager.registerModule(new TwitchModule("Twitch"));
 moduleManager.registerModule(new DiscordModule("Discord"));
 
 for (const moduleI of moduleManager.getModules()) moduleI.bootModule();
-
-
 
 
 

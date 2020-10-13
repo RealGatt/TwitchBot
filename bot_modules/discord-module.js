@@ -1,12 +1,14 @@
 'use strict';
-const index = require("../index.js");
-const ModuleBase = require("./ModuleBase.js");
-const DiscordJS = require("discord.js");
+import { botMain, botConfig } from "../index.js";
+import { ModuleBase } from "./module-base.js";
+import DiscordJS from "discord.js";
 
-class DiscordModule extends ModuleBase {
+export class DiscordModule extends ModuleBase {
     async bootModule() {
         console.log("Discord Module Booted");
     }
-}
 
-module.exports = DiscordModule;
+    async shutdownModule() {
+        console.log("Discord Module Shutdown");
+    }
+}

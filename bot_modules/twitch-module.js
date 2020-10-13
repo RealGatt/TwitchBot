@@ -1,17 +1,14 @@
 'use strict';
-const index = require("../index.js");
-const ModuleBase = require("./ModuleBase.js");
-const {
-    ApiClient
-} = require('twitch');
-const {
+import { botMain, botConfig } from "../index.js";
+import { ModuleBase } from "./module-base.js";
+
+import { ApiClient } from "twitch";
+import {
     AccessToken,
     RefreshableAuthProvider,
     StaticAuthProvider
-} = require('twitch-auth');
-const {
-    ChatClient
-} = require('twitch-chat-client');
+} from "twitch-auth";
+import { ChatClient } from "twitch-chat-client";
 
 const instance = this;
 
@@ -20,18 +17,18 @@ var username;
 var channel;
 var connectTime;
 
-class TwitchModule extends ModuleBase {
+export class TwitchModule extends ModuleBase {
     async bootModule() {
-        username = index.config.twitch.botUsername;
-        channel = index.config.twitch.channel;
+        username = botConfig.twitch.botUsername;
+        channel = botConfig.twitch.channel;
 
         console.log("Using " + username + " to connect to " + channel);
 
-        const clientId = index.config.twitch.refreshClientId;
-        const accessToken = index.config.twitch.oauthToken;
-        const clientSecret = index.config.twitch.refreshSecret;
-        const refreshToken = index.config.twitch.refreshToken;
-        const expiryTimestamp = index.config.twitch.expiryTimestamp;
+        const clientId = botConfig.twitch.refreshClientId;
+        const accessToken = botConfig.twitch.oauthToken;
+        const clientSecret = botConfig.twitch.refreshSecret;
+        const refreshToken = botConfig.twitch.refreshToken;
+        const expiryTimestamp = botConfig.twitch.expiryTimestamp;
         const authProvider = new RefreshableAuthProvider(
             new StaticAuthProvider(clientId, accessToken), {
                 clientSecret: clientSecret,
@@ -43,10 +40,10 @@ class TwitchModule extends ModuleBase {
                     expiryDate
                 }) => {
                     // do things with the new token data, e.g. save them in your database
-                    index.config.twitch.oauthToken = accessToken;
-                    index.config.twitch.refreshToken = refreshToken;
-                    index.config.twitch.expiryTimestamp = expiryDate === null ? null : expiryDate.getTime();
-                    index.fs.writeFileSync("./config.json", JSON.stringify(index.config, null, 4));
+                    botConfig.twitch.oauthToken = accessToken;
+                    botConfig.twitch.refreshToken = refreshToken;
+                    botConfig.twitch.expiryTimestamp = expiryDate === null ? null : expiryDate.getTime();
+                    botMain.fs.writeFileSync("./config.json", JSON.stringify(botConfig, null, 4));
                     await this.bootModule();
                 }
             }
@@ -71,7 +68,7 @@ class TwitchModule extends ModuleBase {
             chatClient.onJoin(async(chnl) => {
                 if (chnl == channel) {
                     connectTime = new Date();
-                    await this.action(index.config.twitch.connectedMessage);
+                    await this.action(botConfig.twitch.connectedMessage);
                 }
             });
 
@@ -89,8 +86,6 @@ class TwitchModule extends ModuleBase {
 
     async shutdownModule() {
         console.log("Shutting down");
-        await this.action(index.config.twitch.disconnectingMessage);
+        await this.action(botConfig.twitch.disconnectingMessage);
     }
 }
-
-module.exports = TwitchModule;

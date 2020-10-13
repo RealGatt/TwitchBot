@@ -3,6 +3,7 @@
     "version": "1.0.0",
     "description": "Gatt's Twitch Bot",
     "main": "index.js",
+    "type": "module",
     "scripts": {
         "start": "node --use_strict index.js"
     },
