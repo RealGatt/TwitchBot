@@ -47,7 +47,7 @@ export default class TwitchModule extends ModuleBase {
                 clientSecret: clientSecret,
                 refreshToken: refreshToken,
                 expiry: expiryTimestamp === null ? null : new Date(expiryTimestamp), // If This Then That
-                onRefresh: async({
+                onRefresh: async ({
                     accessToken,
                     refreshToken,
                     expiryDate
@@ -66,14 +66,14 @@ export default class TwitchModule extends ModuleBase {
         });
         await chatClient.connect().then(() => {
 
-            chatClient.onMessage(async(sentChannel, user, msg) => {
+            chatClient.onMessage(async (sentChannel, user, msg) => {
                 if (sentChannel == channel) {
                     if (msg.startsWith("!ping")) {
                         await this.action("Pong! @" + user);
                     } else if (msg.startsWith("!imposter")) {
-
-                        var imposter = Math.random() > 0.5;
+                        var imposter = Math.random() >= 0.5;
                         if (user.toLowerCase() === "gatt_au") imposter = false;
+                        if (imposter) await chatClient.timeout(channel, user, 10, "They were an imposter");
 
                         var msg =
                             ". 。 • ﾟ 。 . . 。. 。 • ﾟ 。 . . 。ඞ . 。 • ﾟ 。 . . 。. 。 • ﾟ 。 . . 。 " +
@@ -81,7 +81,6 @@ export default class TwitchModule extends ModuleBase {
                             ". 。 • ﾟ 。 . . 。. 。 • ﾟ 。 . . 。";
 
                         await this.action(msg);
-                        if (imposter) await chatClient.timeout(channel, user, 10, "They were an imposter");
                     } else if (msg.startsWith("!sadge")) {
                         var msg = "ヽヽ｀ヽ｀、ヽヽ｀ヽ｀、ヽヽ｀ヽ、ヽヽ｀ヽ｀、ヽヽ｀ヽ｀、｀ヽ｀、ヽヽ｀ヽ｀、ヽヽ｀ヽ PepeHands ヽ｀ヽ｀、ヽヽ｀、ヽヽ｀ヽ｀、ヽヽ｀ヽ｀、｀ヽ｀、ヽヽ｀ヽ｀、ヽヽ｀ヽ｀、ヽヽ｀ヽ｀、ヽヽ、ヽヽ｀ヽ、ヽヽ";
                         await this.action(msg);
@@ -97,7 +96,7 @@ export default class TwitchModule extends ModuleBase {
                 }
             });
 
-            chatClient.onJoin(async(chnl) => {
+            chatClient.onJoin(async (chnl) => {
                 if (chnl == channel) {
                     connectTime = new Date();
                     if (chatClient.isConnected) console.log("Connected to Twitch Chat as " + chatClient.currentNick);

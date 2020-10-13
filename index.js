@@ -4,24 +4,19 @@ console.log = function(msg){
     process.stdout.write(msg + "\n");
 }
 
-export const botMain = this;
-
 import { JSONStorage } from "node-localstorage";
-import fs from "fs";
+import fs, { promises as afs} from "fs";
 import obs from "obs-websocket-js";
 import websocket from "websocket";
-
-const localStorage = new JSONStorage("./localStorage");
-
-export const botConfig = JSON.parse(fs.readFileSync("./config.json"));
-
 import ModuleManager from "./bot_modules/module-manager.js";
 
-console.log("Booting " + botConfig.version + " using Node v " + process.version);
+export const botMain = this;
+export const botConfig = JSON.parse(fs.readFileSync("./config.json"));
+export const localStorage = new JSONStorage("./localStorage");
+export const moduleManager = new ModuleManager();
+
+console.log("Booting " + botConfig.version + " using Node " + process.version);
 // add modules here
-
-const moduleManager = new ModuleManager();
-
 
 fs.readdir("./bot_modules", (err, files)=>{
     if (err) console.log(err);
@@ -35,6 +30,22 @@ fs.readdir("./bot_modules", (err, files)=>{
         } 
     }
 });
+
+/*
+const dir = await afs.readdir("./bot_modules");
+for (const file of dir) {
+    console.log(file);
+    if (file.endsWith("-module.js")) {
+        console.log(file);
+        const mod = await import("./bot_modules/"+ file);
+        console.log(file);
+        const moduleInstance = new mod.default();
+        console.log(file);
+        moduleManager.registerModule(moduleInstance);
+        moduleManager.getModuleByName(moduleInstance.name).bootModule()
+    }
+}
+*/
 
 
 /*
