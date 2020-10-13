@@ -46,13 +46,12 @@ export default class TwitchModule extends ModuleBase {
             new StaticAuthProvider(clientId, accessToken), {
                 clientSecret: clientSecret,
                 refreshToken: refreshToken,
-                expiry: expiryTimestamp === null ? null : new Date(expiryTimestamp),
+                expiry: expiryTimestamp === null ? null : new Date(expiryTimestamp), // If This Then That
                 onRefresh: async({
                     accessToken,
                     refreshToken,
                     expiryDate
                 }) => {
-                    // do things with the new token data, e.g. save them in your database
                     botConfig.twitch.oauthToken = accessToken;
                     botConfig.twitch.refreshToken = refreshToken;
                     botConfig.twitch.expiryTimestamp = expiryDate === null ? null : expiryDate.getTime();
