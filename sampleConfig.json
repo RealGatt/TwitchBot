@@ -1,0 +1,25 @@
+{
+    "version": "1.0.0",
+    "obsWebSocket": {
+        "address": "localhost",
+        "port": 4444,
+        "password": "xxx"
+    },
+    "twitch": {
+        "oauthToken": "",
+        "botUsername": "gatt_au",
+        "channel": "#gatt_au",
+        "refreshToken": "",
+        "refreshClientId": "",
+        "refreshSecret": "",
+        "expiryTimestamp": 0,
+        "connectedMessage": "Connected to Twitch Chat",
+        "sendConnectedMessage": true,
+        "disconnectingMessage": "Disconnecting from Twitch Chat",
+        "sendDisconnectingMessage": true
+    },
+    "discord": {
+        "botToken": "",
+        "botPrefix": "_"
+    }
+}
