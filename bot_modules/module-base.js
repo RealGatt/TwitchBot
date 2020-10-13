@@ -1,6 +1,6 @@
 'use strict';
 
-export class ModuleBase {
+export default class ModuleBase {
     constructor(name) {
         this.name = name;
     }

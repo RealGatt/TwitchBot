@@ -8,9 +8,9 @@ import websocket from "websocket";
 
 export const botConfig = JSON.parse(fs.readFileSync("./config.json"));
 
-import { ModuleManager } from "./bot_modules/module-manager.js";
-import { TwitchModule } from "./bot_modules/twitch-module.js";
-import { DiscordModule } from "./bot_modules/discord-module.js";
+import ModuleManager from "./bot_modules/module-manager.js";
+import TwitchModule from "./bot_modules/twitch-module.js";
+import DiscordModule from "./bot_modules/discord-module.js";
 
 
 console.log("Booting " + botConfig.version);

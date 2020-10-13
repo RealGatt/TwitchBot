@@ -1,14 +1,20 @@
 'use strict';
-import { botMain, botConfig } from "../index.js";
-import { ModuleBase } from "./module-base.js";
-
-import { ApiClient } from "twitch";
+import {
+    botMain,
+    botConfig
+} from "../index.js";
+import ModuleBase from "./module-base.js";
+import {
+    ApiClient
+} from "twitch";
 import {
     AccessToken,
     RefreshableAuthProvider,
     StaticAuthProvider
 } from "twitch-auth";
-import { ChatClient } from "twitch-chat-client";
+import {
+    ChatClient
+} from "twitch-chat-client";
 
 const instance = this;
 
@@ -17,7 +23,7 @@ var username;
 var channel;
 var connectTime;
 
-export class TwitchModule extends ModuleBase {
+export default class TwitchModule extends ModuleBase {
     async bootModule() {
         username = botConfig.twitch.botUsername;
         channel = botConfig.twitch.channel;

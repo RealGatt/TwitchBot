@@ -1,6 +1,6 @@
 const modules = [];
 
-export class ModuleManager {
+export default class ModuleManager {
 
     registerModule(module) {
         modules.push(module);
