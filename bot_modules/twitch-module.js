@@ -46,7 +46,7 @@ export default class TwitchModule extends ModuleBase {
             new StaticAuthProvider(clientId, accessToken), {
                 clientSecret: clientSecret,
                 refreshToken: refreshToken,
-                expiry: expiryTimestamp === null ? null : new Date(expiryTimestamp), // If This Then That
+                expiry: expiryTimestamp === null ? null : new Date(expiryTimestamp),
                 onRefresh: async ({
                     accessToken,
                     refreshToken,
@@ -109,10 +109,11 @@ export default class TwitchModule extends ModuleBase {
     }
 
     async sendMessage(msg) {
-        chatClient.say(channel, "🤖  " + msg);
+        chatClient.say(channel, "!🤖  " + msg);
     }
+
     async action(msg) {
-        chatClient.action(channel, "🤖  " + msg);
+        chatClient.action(channel, "!🤖  " + msg);
     }
 
     async shutdownModule() {

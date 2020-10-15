@@ -7,7 +7,16 @@
       "modOnly": false,
       "gattOnly": false,
       "responseType": "eval",
-      "response": "var imposter = Math.random() > 0.5; if (user === \"gatt_au\") imposter = false; if (imposter) twitchModuleInstance.timeout(channel, user, 10, \"They were an imposter!\"); \". 。 • ﾟ 。 . 。 • ﾟ . 。ඞ .  • ﾟ 。 @\" + user + \" was\" + (imposter ? \" an imposter!\" : \" not an imposter! gattauWave . 。 • ﾟ 。 . . 。. 。 • ﾟ 。 . . 。. 。 • ﾟ 。 . . 。\");"
+      "response": "var imposter = Math.random() > 0.5; if (user === \"gatt_au\") imposter = false; if (imposter) twitchModuleInstance.timeout(user, 10, \"They were an imposter!\"); \". 。 • ﾟ 。 . 。 • ﾟ . 。ඞ .  • ﾟ 。 @\" + user + \" was\" + (imposter ? \" an imposter!\" : \" not an imposter! gattauWave . 。 • ﾟ 。 . . 。. 。 • ﾟ 。 . . 。. 。 • ﾟ 。 . . 。\");"
+    },
+    {
+      "command": "multi",
+      "cooldown": 1,
+      "cooldownType": "global",
+      "modOnly": false,
+      "gattOnly": false,
+      "responseType": "simple",
+      "response": "https://multitwitch.live/probluesplayer/gatt_au/hoolahoopz/burrowsred/fsharpace/kaydaymayday/matt_au/eckybabs/Wiltop/Kawaiikula"
     },
     {
       "command": "ejected",
@@ -27,6 +36,15 @@
       "gattOnly": false,
       "responseType": "simple",
       "response": "ヽヽ｀ヽ｀、ヽヽ｀ヽ｀、ヽヽ｀ヽ、ヽヽ｀ヽ｀、ヽヽ｀ヽ｀、｀ヽ｀、ヽヽ｀ヽ｀、ヽヽ｀ヽ PepeHands ヽ｀ヽ｀、ヽヽ｀、ヽヽ｀ヽ｀、ヽヽ｀ヽ｀、｀ヽ｀、ヽヽ｀ヽ｀、ヽヽ｀ヽ｀、ヽヽ｀ヽ｀、ヽヽ、ヽヽ｀ヽ、ヽヽ"
+    },
+    {
+      "command": "keyboards",
+      "cooldown": 1,
+      "cooldownType": "global",
+      "modOnly": false,
+      "gattOnly": false,
+      "responseType": "simple",
+      "response": "Main Keyboard: Gasket Mount TOFU65 w/ 2014 MX Blacks, 205g0, Sprit Springs & Creams, 205g0. Second Keyboard: XD84 w/ Tangerines 205g0. Coming Soon: BEAR65 w/ Alpacas probably, NK Entry Milkshake Edition"
     },
     {
       "command": "ping",
