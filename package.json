@@ -5,7 +5,7 @@
     "main": "index.js",
     "type": "module",
     "scripts": {
-        "start": "node --use_strict index.js"
+        "start": "node --use_strict --trace-warnings index.js"
     },
     "author": "",
     "license": "ISC",

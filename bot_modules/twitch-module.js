@@ -20,10 +20,10 @@ import localStorage from "node-localstorage";
 
 const instance = this;
 
-var chatClient;
-var username;
-var channel;
-var connectTime;
+export var chatClient;
+export var username;
+export var channel;
+export var connectTime;
 
 export default class TwitchModule extends ModuleBase {
     constructor() {
@@ -68,23 +68,7 @@ export default class TwitchModule extends ModuleBase {
 
             chatClient.onMessage(async (sentChannel, user, msg) => {
                 if (sentChannel == channel) {
-                    if (msg.startsWith("!ping")) {
-                        await this.action("Pong! @" + user);
-                    } else if (msg.startsWith("!imposter")) {
-                        var imposter = Math.random() >= 0.5;
-                        if (user.toLowerCase() === "gatt_au") imposter = false;
-                        if (imposter) await chatClient.timeout(channel, user, 10, "They were an imposter");
-
-                        var msg =
-                            ". 。 • ﾟ 。 . . 。. 。 • ﾟ 。 . . 。ඞ . 。 • ﾟ 。 . . 。. 。 • ﾟ 。 . . 。 " +
-                            "@" + user + (imposter ? " was an Imposter" : " was not an Imposter") + " gattauWave . 。 • ﾟ 。 . . 。" +
-                            ". 。 • ﾟ 。 . . 。. 。 • ﾟ 。 . . 。";
-
-                        await this.action(msg);
-                    } else if (msg.startsWith("!sadge")) {
-                        var msg = "ヽヽ｀ヽ｀、ヽヽ｀ヽ｀、ヽヽ｀ヽ、ヽヽ｀ヽ｀、ヽヽ｀ヽ｀、｀ヽ｀、ヽヽ｀ヽ｀、ヽヽ｀ヽ PepeHands ヽ｀ヽ｀、ヽヽ｀、ヽヽ｀ヽ｀、ヽヽ｀ヽ｀、｀ヽ｀、ヽヽ｀ヽ｀、ヽヽ｀ヽ｀、ヽヽ｀ヽ｀、ヽヽ、ヽヽ｀ヽ、ヽヽ";
-                        await this.action(msg);
-                    } else if (user === "gatt_au" && msg.startsWith("!eval ")) {
+                    if (user === "gatt_au" && msg.startsWith("!evsal ")) {
                         var evald = msg.replace("!eval ", "");
                         try {
                             var returned = eval(evald);

@@ -1,36 +1,68 @@
 {
   "commands": [
     {
-      "command": "!imposter",
+      "command": "imposter",
       "cooldown": 1,
-      "cooldown-type": "user",
-      "mod-only": false,
-      "response-type": "eval",
-      "response": "var imposter = Math.random() > 0.5; if (user === \"gatt_au\") imposter = false; if (imposter) chatClient.timeout(channel, user, 10, \"They were an imposter!\"); \"@\" + user + \" was\" + (imposter ? \" an imposter!\" : \" not an imposter!\");"
+      "cooldownType": "user",
+      "modOnly": false,
+      "gattOnly": false,
+      "responseType": "eval",
+      "response": "var imposter = Math.random() > 0.5; if (user === \"gatt_au\") imposter = false; if (imposter) chatClient.timeout(channel, user, 10, \"They were an imposter!\"); \". 。 • ﾟ 。 . . 。. 。 • ﾟ 。 . . 。ඞ . 。 • ﾟ 。 . . 。. 。 • ﾟ 。 . . 。 @\" + user + \" was\" + (imposter ? \" an imposter!\" : \" not an imposter! gattauWave . 。 • ﾟ 。 . . 。. 。 • ﾟ 。 . . 。. 。 • ﾟ 。 . . 。\");"
     },
     {
-      "command": "!sadge",
+      "command": "ejected",
       "cooldown": 1,
-      "cooldown-type": "global",
-      "mod-only": false,
-      "response-type": "simple",
+      "cooldownType": "global",
+      "modOnly": false,
+      "gattOnly": false,
+      "responseType": "simple",
+      "response": ". 。 • ﾟ 。 . . 。. 。 • ﾟ 。 . . 。ඞ . 。@$USER got ejected... PepeHands  . 。. 。 • ﾟ 。 . .  . 。. 。 • ﾟ 。 . . ",
+      "afterEval": "var eject = Math.random() > 0.1; if (user === \"gatt_au\") eject = false; if (eject) chatClient.timeout(channel, user, 10, \"They got ejected :(\");"
+    },
+    {
+      "command": "sadge",
+      "cooldown": 1,
+      "cooldownType": "global",
+      "modOnly": false,
+      "gattOnly": false,
+      "responseType": "simple",
       "response": "ヽヽ｀ヽ｀、ヽヽ｀ヽ｀、ヽヽ｀ヽ、ヽヽ｀ヽ｀、ヽヽ｀ヽ｀、｀ヽ｀、ヽヽ｀ヽ｀、ヽヽ｀ヽ PepeHands ヽ｀ヽ｀、ヽヽ｀、ヽヽ｀ヽ｀、ヽヽ｀ヽ｀、｀ヽ｀、ヽヽ｀ヽ｀、ヽヽ｀ヽ｀、ヽヽ｀ヽ｀、ヽヽ、ヽヽ｀ヽ、ヽヽ"
     },
     {
-      "command": "!ping",
+      "command": "ping",
       "cooldown": -1,
-      "cooldown-type": "user",
-      "mod-only": false,
-      "response-type": "simple",
+      "cooldownType": "user",
+      "modOnly": false,
+      "gattOnly": false,
+      "responseType": "simple",
       "response": "@$USER Pong!"
     },
     {
-      "command": "!mod",
+      "command": "mod",
       "cooldown": -1,
-      "cooldown-type": "user",
-      "mod-only": true,
-      "response-type": "simple",
+      "cooldownType": "user",
+      "modOnly": true,
+      "gattOnly": false,
+      "responseType": "simple",
       "response": "@$USER is a cool mod person"
+    },
+    {
+      "command": "rl",
+      "cooldown": -1,
+      "cooldownType": "user",
+      "modOnly": true,
+      "gattOnly": false,
+      "responseType": "eval",
+      "response": "this.loadCommands(); \"Commands reloaded. There are \" + commands.length + \" commands in memory, including this one!\""
+    },
+    {
+      "command": "eval",
+      "cooldown": -1,
+      "cooldownType": "user",
+      "modOnly": true,
+      "gattOnly": true,
+      "responseType": "eval",
+      "response": "var evalD = msg.replace(\"!eval \", \"\"); console.log(\"You eval'd \" + evalD); var response = eval(evalD); response;"
     }
   ]
 }
