@@ -7,7 +7,7 @@
       "modOnly": false,
       "gattOnly": false,
       "responseType": "eval",
-      "response": "var imposter = Math.random() > 0.5; if (user === \"gatt_au\") imposter = false; if (imposter) chatClient.timeout(channel, user, 10, \"They were an imposter!\"); \". 。 • ﾟ 。 . . 。. 。 • ﾟ 。 . . 。ඞ . 。 • ﾟ 。 . . 。. 。 • ﾟ 。 . . 。 @\" + user + \" was\" + (imposter ? \" an imposter!\" : \" not an imposter! gattauWave . 。 • ﾟ 。 . . 。. 。 • ﾟ 。 . . 。. 。 • ﾟ 。 . . 。\");"
+      "response": "var imposter = Math.random() > 0.5; if (user === \"gatt_au\") imposter = false; if (imposter) twitchModuleInstance.timeout(channel, user, 10, \"They were an imposter!\"); \". 。 • ﾟ 。 . 。 • ﾟ . 。ඞ .  • ﾟ 。 @\" + user + \" was\" + (imposter ? \" an imposter!\" : \" not an imposter! gattauWave . 。 • ﾟ 。 . . 。. 。 • ﾟ 。 . . 。. 。 • ﾟ 。 . . 。\");"
     },
     {
       "command": "ejected",
@@ -17,7 +17,7 @@
       "gattOnly": false,
       "responseType": "simple",
       "response": ". 。 • ﾟ 。 . . 。. 。 • ﾟ 。 . . 。ඞ . 。@$USER got ejected... PepeHands  . 。. 。 • ﾟ 。 . .  . 。. 。 • ﾟ 。 . . ",
-      "afterEval": "var eject = Math.random() > 0.1; if (user === \"gatt_au\") eject = false; if (eject) chatClient.timeout(channel, user, 10, \"They got ejected :(\");"
+      "afterEval": "var eject = Math.random() > 0.1; if (eject) twitchModuleInstance.timeout(user, 10, \"They got ejected :(\"); obs.send('SetTextGDIPlusProperties', {'scene-name': `-- Memes`, source: `EJECTED`, text: user + ` got ejected last...`} )"
     },
     {
       "command": "sadge",

@@ -94,6 +94,20 @@ export default class TwitchModule extends ModuleBase {
         console.log("Twitch Module Booted");
     }
 
+    async timeout(user, time, reason){
+        chatClient.getMods(channel).then((mods)=>{
+            if (mods.includes(user)) return;
+            chatClient.timeout(channel, user, time, reason);
+        });
+    }
+
+    async ban(user, reason){
+        chatClient.getMods(channel).then((mods)=>{
+            if (mods.includes(user)) return;
+            chatClient.ban(channel, user, reason);
+        });
+    }
+
     async sendMessage(msg) {
         chatClient.say(channel, "🤖  " + msg);
     }

@@ -2,10 +2,12 @@
 import { botMain, botConfig, moduleManager } from "../index.js";
 import ModuleBase from "./module-base.js";
 import {chatClient, username, channel, connectTime} from "./twitch-module.js";
+import { obs } from "./obs-module.js";
 import fs from "fs";
 
 const instance = this;
 var twitchModuleInstance;
+var obsModuleInstance;
 var commands;
 
 export default class TwitchCommandModule extends ModuleBase {
@@ -34,10 +36,11 @@ export default class TwitchCommandModule extends ModuleBase {
 			}, 1000);
 		}else{
 			twitchModuleInstance = moduleManager.getModuleByName("TWITCH");
+			obsModuleInstance = moduleManager.getModuleByName("OBS");
 			console.log("ChatClient is connected as " + chatClient.currentNick);
 			this.loadCommands();
 			
-			await twitchModuleInstance.action("Command Handler is ready to go.");
+			//await twitchModuleInstance.action("Command Handler is ready to go.");
 			chatClient.onMessage(async (sentChannel, user, msg) => {
 				if (sentChannel === channel){
 					if (msg.startsWith(botConfig.twitch.commandPrefix)){
@@ -64,6 +67,6 @@ export default class TwitchCommandModule extends ModuleBase {
     }
 
     async shutdownModule() {
-		await twitchModuleInstance.action("Test");
+		//await twitchModuleInstance.action("Test");
     }
 }
