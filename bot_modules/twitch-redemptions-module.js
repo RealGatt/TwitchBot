@@ -1,7 +1,8 @@
 'use strict';
 import { botMain, botConfig, moduleManager } from "../index.js";
 import ModuleBase from "./module-base.js";
-import {chatClient, username, channel, connectTime} from "./twitch-module.js";
+import {chatClient, apiClient, username, channel, connectTime} from "./twitch-module.js";
+import { PubSubClient } from 'twitch-pubsub-client';
 import { obs } from "./obs-module.js";
 import fs from "fs";
 import asyncEval from "async-eval";
@@ -10,6 +11,7 @@ const instance = this;
 var twitchModuleInstance, obsModuleInstance, queueModuleInstance;
 var redemptions;
 
+const pubSubClient = new PubSubClient();
 
 export default class DiscordModule extends ModuleBase {
     constructor() {
@@ -33,7 +35,28 @@ export default class DiscordModule extends ModuleBase {
 			twitchModuleInstance = moduleManager.getModuleByName("TWITCH");
 			obsModuleInstance = moduleManager.getModuleByName("OBS");
 			queueModuleInstance = moduleManager.getModuleByName("QUEUE");
+			
 			this.loadRedemptions();
+
+			await pubSubClient.registerUserListener(apiClient);
+
+			pubSubClient.onRedemption("23617040", (redemptionMessage=>{
+				if (redemptionMessage.channelId === "23617040") {
+					var redemptionName = redemptionMessage.rewardName;
+					var potentialRedemption = redemptions.filter(redemption => redemptionName.toLowerCase() === redemption.redemptionName.toLowerCase())[0];
+					if (potentialRedemption === undefined || potentialRedemption === null) return;
+					switch(potentialRedemption.redemptionType){
+						case "queue":
+							console.log("Added " + redemptionName + " to queue");
+							queueModuleInstance.addToQueue(redemptionName, redemptionMessage);	
+							break;
+						case "eval":
+							eval(potentialRedemption.eval);
+							break;
+					}			
+				}
+			}));
+
 			console.log("Twitch Redemptions Module Booted");
 			
 			//await twitchModuleInstance.action("Command Handler is ready to go.");

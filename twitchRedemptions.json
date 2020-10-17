@@ -2,7 +2,12 @@
 	"redemptions":[
 		{
 			"redemptionName": "Timeout Somebody Else",
-			"eval": ""
+			"redemptionType": "eval",
+			"eval": "twitchModuleInstance.action(\"I smell\");"
+		},
+		{
+			"redemptionName": "Queue Test",
+			"redemptionType": "queue"
 		}
 	]
 }
