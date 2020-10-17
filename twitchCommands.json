@@ -1,6 +1,15 @@
 {
   "commands": [
     {
+      "command": "followage",
+      "cooldown": 1,
+      "cooldownType": "user",
+      "modOnly": false,
+      "gattOnly": false,
+      "responseType": "eval",
+      "response": "apiClient.kraken.users.getFollowedChannel(userId, channelId).then((follow)=>{ var response = `@${user} You are not following!`; if (follow) { const currentTimestamp = Date.now(); const followStartTimestamp = follow.followDate.getTime(); response = `@${user} You have been following for ${this.secondsToDuration((currentTimestamp - followStartTimestamp) / 1000)}!`;} twitchModuleInstance.action(response); }); \"nothing\";"
+    },
+    {
       "command": "imposter",
       "cooldown": 1,
       "cooldownType": "user",

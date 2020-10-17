@@ -1,29 +1,17 @@
 'use strict';
-import {
-    botMain,
-    botConfig
-} from "../index.js";
+import { botMain, botConfig } from "../index.js";
 import ModuleBase from "./module-base.js";
-import {
-    ApiClient
-} from "twitch";
-import {
-    AccessToken,
-    RefreshableAuthProvider,
-    StaticAuthProvider
-} from "twitch-auth";
-import {
-    ChatClient
-} from "twitch-chat-client";
+import { ApiClient } from "twitch";
+import { AccessToken, RefreshableAuthProvider, StaticAuthProvider} from "twitch-auth";
+import { ChatClient, PrivateMessage } from "twitch-chat-client";
 import fs from "fs";
 import localStorage from "node-localstorage";
 
 const instance = this;
 
-export var chatClient;
-export var username;
-export var channel;
-export var connectTime;
+export var chatClient, apiClient, username, channel, connectTime;
+
+// https://d-fischer.github.io/twitch-chat-client/
 
 export default class TwitchModule extends ModuleBase {
     constructor() {
@@ -61,9 +49,13 @@ export default class TwitchModule extends ModuleBase {
             }
         );
 
+
+        apiClient = new ApiClient({authProvider: authProvider, preAuth: true, logLevel: "DEBUG"});
+
         chatClient = new ChatClient(authProvider, {
             channels: [channel]
         });
+
         await chatClient.connect().then(() => {
 
             chatClient.onMessage(async (sentChannel, user, msg) => {
@@ -94,18 +86,27 @@ export default class TwitchModule extends ModuleBase {
         console.log("Twitch Module Booted");
     }
 
-    async timeout(user, time, reason){
-        chatClient.getMods(channel).then((mods)=>{
-            if (mods.includes(user)) return;
-            chatClient.timeout(channel, user, time, reason);
+    async getUser(input){
+
+    }
+
+    async isMod(user){
+        return chatClient.getMods(channel).then((mods)=>{
+            return (mods.includes(user));
+        });
+    }
+    async isVIP(user){
+        return chatClient.getVips(channel).then((mods)=>{
+            return (mods.includes(user));
         });
     }
 
+    async timeout(user, time, reason){
+        if (!await this.isMod(user)) chatClient.timeout(channel, user, time, reason);
+    }
+
     async ban(user, reason){
-        chatClient.getMods(channel).then((mods)=>{
-            if (mods.includes(user)) return;
-            chatClient.ban(channel, user, reason);
-        });
+        if (!await this.isMod(user)) chatClient.ban(channel, user, time, reason);
     }
 
     async sendMessage(msg) {
