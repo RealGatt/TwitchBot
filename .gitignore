@@ -106,3 +106,5 @@ dist
 config.json
 
 redemptionQueue.json
+
+CODE_GENERATION_URL.txt
