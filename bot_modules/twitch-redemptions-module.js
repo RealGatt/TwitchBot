@@ -40,9 +40,13 @@ export default class DiscordModule extends ModuleBase {
 
 			await pubSubClient.registerUserListener(apiClient);
 
-			pubSubClient.onRedemption("23617040", (redemptionMessage=>{
+			pubSubClient.onRedemption("23617040", async (redemptionMessage)=>{
 				if (redemptionMessage.channelId === "23617040") {
 					var redemptionName = redemptionMessage.rewardName;
+					var msg = redemptionMessage.message;
+					var splitMsg = [];
+					if (msg) splitMsg = msg.split(" ");
+					var user = redemptionMessage.userDisplayName;
 					var potentialRedemption = redemptions.filter(redemption => redemptionName.toLowerCase() === redemption.redemptionName.toLowerCase())[0];
 					if (potentialRedemption === undefined || potentialRedemption === null) return;
 					switch(potentialRedemption.redemptionType){
@@ -55,7 +59,7 @@ export default class DiscordModule extends ModuleBase {
 							break;
 					}			
 				}
-			}));
+			});
 
 			console.log("Twitch Redemptions Module Booted");
 			

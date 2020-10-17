@@ -102,11 +102,19 @@ export default class TwitchModule extends ModuleBase {
     }
 
     async timeout(user, time, reason){
-        if (!await this.isMod(user)) chatClient.timeout(channel, user, time, reason);
+        if (!await this.isMod(user)){
+            chatClient.timeout(channel, user, time, reason);
+            return true;
+        }
+        return false;
     }
 
     async ban(user, reason){
-        if (!await this.isMod(user)) chatClient.ban(channel, user, time, reason);
+        if (!await this.isMod(user)){ 
+            chatClient.ban(channel, user, reason);
+            return true;
+        }
+        return false;
     }
 
     async sendMessage(msg) {
