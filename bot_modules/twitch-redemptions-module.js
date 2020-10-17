@@ -62,8 +62,6 @@ export default class DiscordModule extends ModuleBase {
 			});
 
 			console.log("Twitch Redemptions Module Booted");
-			
-			//await twitchModuleInstance.action("Command Handler is ready to go.");
 		}
     }
 

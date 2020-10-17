@@ -1,23 +1,9 @@
 'use strict';
-import {
-	botMain,
-	botConfig,
-	moduleManager
-} from "../index.js";
+import { botMain, botConfig, moduleManager } from "../index.js";
 import ModuleBase from "./module-base.js";
-import {
-	chatClient,
-	apiClient,
-	username,
-	channel,
-	connectTime
-} from "./twitch-module.js";
-import {
-	PrivateMessage
-} from "twitch-chat-client";
-import {
-	obs
-} from "./obs-module.js";
+import { chatClient,	apiClient, username, channel, connectTime } from "./twitch-module.js";
+import { PrivateMessage } from "twitch-chat-client";
+import { obs } from "./obs-module.js";
 import fs from "fs";
 import asyncEval from "async-eval";
 
@@ -49,7 +35,6 @@ export default class TwitchCommandModule extends ModuleBase {
 		var numminutes = Math.floor((((seconds % 31536000) % 86400) % 3600) / 60);
 		var numseconds = (((seconds % 31536000) % 86400) % 3600) % 60;
 		return ((numyears > 0) ? Math.round(numyears) + " years, " : "") + ((numdays > 0) ? Math.round(numdays) + " days, " : "" )+ Math.round(numhours) + " hours, " + Math.round(numminutes) + " minutes and " + Math.round(numseconds) + " seconds!";
-
 	}
 
 	async bootModule() {
@@ -76,7 +61,7 @@ export default class TwitchCommandModule extends ModuleBase {
 					if (msg.startsWith(botConfig.twitch.commandPrefix)) {
 						var potentialCommand = commands.filter(cmd => msg.startsWith(botConfig.twitch.commandPrefix + cmd.command))[0];
 						if (potentialCommand === undefined || potentialCommand === null) return;
-						if (potentialCommand.modOnly && user !== "gatt_au") return;
+						if (potentialCommand.modOnly && !await twitchModuleInstance.isMod(user)) return;
 						if (potentialCommand.gattOnly && user !== "gatt_au") return;
 						switch (potentialCommand.responseType) {
 							case "eval":

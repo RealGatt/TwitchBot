@@ -3,7 +3,7 @@
 		{
 			"redemptionName": "Reload!",
 			"redemptionType": "eval",
-			"eval": "this.loadRedemptions();"
+			"eval": "this.loadRedemptions(); twitchModuleInstance.action(\"@\" + user + \": Reloaded the redemptions list!\");"
 		},
 		{
 			"redemptionName": "Timeout Somebody Else (30 seconds)",
