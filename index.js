@@ -1,11 +1,11 @@
 'use strict';
 
-console.log = function(msg){
-    process.stdout.write(msg + "\n");
-}
-
-import { JSONStorage } from "node-localstorage";
-import fs, { promises as afs} from "fs";
+import {
+    JSONStorage
+} from "node-localstorage";
+import fs, {
+    promises as afs
+} from "fs";
 import obs from "obs-websocket-js";
 import websocket from "websocket";
 import ModuleManager from "./bot_modules/module-manager.js";
@@ -18,16 +18,17 @@ export const moduleManager = new ModuleManager();
 console.log("Booting " + botConfig.version + " using Node " + process.version);
 // add modules here
 
-fs.readdir("./bot_modules", (err, files)=>{
+fs.readdir("./bot_modules", (err, files) => {
     if (err) console.log(err);
-    for (const subDir of files){
+    for (const subDir of files) {
         if (subDir.endsWith("-module.js")) {
-            import(`./bot_modules/${subDir}`).then((module)=>{
+            import(`./bot_modules/${subDir}`).then((module) => {
                 const moduleInstance = new module.default();
                 moduleManager.registerModule(moduleInstance);
                 moduleManager.getModuleByName(moduleInstance.name).bootModule();
+                sleep(1000);
             });
-        } 
+        }
     }
 });
 
@@ -85,3 +86,8 @@ process.on('SIGINT', () => {
 process.on('exit', function (code) {
     shutdownModules();
 });
+
+process.on('unhandledRejection', (reason, p) => {
+    console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
+    // application specific logging, throwing an error, or other logic here
+  });

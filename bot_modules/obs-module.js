@@ -38,7 +38,7 @@ export default class OBSModule extends ModuleBase {
                     text: "CONNECTED"
                 }
             ).then(()=>this.hideItem("-- Alert Box Overlay", "BOT CONNECTION")).catch((e)=>console.log(e.error));
-        });
+        }).catch((err)=>{console.log("Couldn't connect to OBS", err);});
     }
 
     async shutdownModule() {

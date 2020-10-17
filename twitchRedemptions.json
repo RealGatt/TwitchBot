@@ -9,10 +9,6 @@
 			"redemptionName": "Timeout Somebody Else (30 seconds)",
 			"redemptionType": "eval",
 			"eval": "twitchModuleInstance.timeout(splitMsg[0], 30, user + \" timed them out via a Redemption\").then((s)=>{ if (s) twitchModuleInstance.action(user + \" successfully timed \" + splitMsg[0] + \" out!\"); else  twitchModuleInstance.action(\"@\" + user + \": That user cannot be timed out!\"); });"
-		},
-		{
-			"redemptionName": "Queue Test",
-			"redemptionType": "queue"
 		}
 	]
 }
