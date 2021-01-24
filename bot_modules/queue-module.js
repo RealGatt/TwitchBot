@@ -1,7 +1,8 @@
 'use strict';
 import {
 	botMain,
-	botConfig
+	botConfig,
+	moduleManager
 } from "../index.js";
 import ModuleBase from "./module-base.js";
 import fs from "fs";
@@ -10,12 +11,13 @@ let actionQueue = new Map(); // [ActionID, Array]
 let actionQueueRunning = new Map(); // [ActionID, Boolean]
 let START_QUEUE_IMMEDIATELY = true;
 
+var twitchModuleInstance, obsModuleInstance;
+
 export default class DiscordModule extends ModuleBase {
 	constructor() {
 		super();
 		this.name = "QUEUE";
 	}
-
 
 	loadQueue() {
 		// read current queue contents
@@ -35,10 +37,7 @@ export default class DiscordModule extends ModuleBase {
 				//console.log(actionQueue);
 			}
 
-			// debugging stuff
-
 			this.saveQueue();
-
 			if (START_QUEUE_IMMEDIATELY) this.parseQueue();
 		});
 	}
@@ -69,11 +68,12 @@ export default class DiscordModule extends ModuleBase {
 			userName: message.userName,
 			rewardName: message.rewardName,
 			_data: message._data,
+			callback: undefined
 		};
 
 		queue.push(superCoolMessage);
-
 		actionQueue[redeemableKey] = queue;
+
 		this.saveQueue();
 
 		this.doQueue(redeemableKey);
@@ -103,9 +103,10 @@ export default class DiscordModule extends ModuleBase {
 	}
 
 	finishRedeemable(redeemableKey) {
+		var instance = this;
 		setTimeout(function () {
 			actionQueueRunning[redeemableKey] = false;
-			this.doQueue(redeemableKey);
+			instance.doQueue(redeemableKey);
 		}, 1000);
 	}
 
@@ -123,9 +124,7 @@ export default class DiscordModule extends ModuleBase {
 		let queue = [];
 		if (redeemableKey in actionQueue) queue = actionQueue[redeemableKey]; // get the current array
 
-
 		let message = queue.shift();
-
 		if (message === undefined) {
 			actionQueueRunning[redeemableKey] = false;
 			return;
@@ -135,27 +134,66 @@ export default class DiscordModule extends ModuleBase {
 
 		this.saveQueue();
 
-		if (message.callback !== undefined){
+		if (message.callback !== undefined) {
 			message.callback();
 			return;
 		}
 
+		var instance = this;
 		switch (redeemableKey) {
-			case redeemableKey.startsWith("Sounds-") ? redeemableKey:
-				"x" :
-				var soundmessage = redeemableKey.replace("Sounds-", "");
+
+			case "*click* Nice":
+				obsModuleInstance.showItem("-- Memes", "Nice");
+				setTimeout(function () {
+					obsModuleInstance.hideItem("-- Memes", "Nice");
+					instance.finishRedeemable(redeemableKey);
+				}, 4500);
 				break;
 
-			case redeemableKey.startsWith("Video-") ? redeemableKey:
-				"x" :
-				var videomessage = redeemableKey.replace("Video-", "");
+			case "THE POWER OF GOD AND ANIME":
+				obsModuleInstance.showItem("-- Memes", "GODANDANIME");
+				setTimeout(function () {
+					obsModuleInstance.hideItem("-- Memes", "GODANDANIME");
+					instance.finishRedeemable(redeemableKey);
+				}, 7500);
 				break;
+
+			case "MOM GET THE CAMERA":
+				obsModuleInstance.showItem("-- Memes", "Get The Camera");
+				setTimeout(function () {
+					obsModuleInstance.hideItem("-- Memes", "Get The Camera");
+					instance.finishRedeemable(redeemableKey);
+				}, 5500);
+				break;
+
+			case "Dead":
+				obsModuleInstance.showItem("-- Memes", "LP 0");
+				setTimeout(function () {
+					obsModuleInstance.hideItem("-- Memes", "LP 0");
+					instance.finishRedeemable(redeemableKey);
+				}, 3500);
+				break;
+
+				// case redeemableKey.startsWith("Sounds-") ? redeemableKey:
+				// 	"x" :
+				// 	var soundmessage = redeemableKey.replace("Sounds-", "");
+				// 	break;
+
+				// case redeemableKey.startsWith("Video-") ? redeemableKey:
+				// 	"x" :
+				// 	var videomessage = redeemableKey.replace("Video-", "");
+				// 	break;
 		}
 	}
 
 	async bootModule() {
+		twitchModuleInstance = moduleManager.getModuleByName("TWITCH");
+		obsModuleInstance = moduleManager.getModuleByName("OBS");
 		console.log("Queue Module Booted");
-		this.loadQueue();
+		var instance = this;
+		setTimeout(function () {
+			instance.loadQueue();
+		}, 5000);
 	}
 
 	async shutdownModule() {

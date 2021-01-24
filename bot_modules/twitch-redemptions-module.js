@@ -53,6 +53,7 @@ export default class DiscordModule extends ModuleBase {
 						case "queue":
 							console.log("Added " + redemptionName + " to queue");
 							queueModuleInstance.addToQueue(redemptionName, redemptionMessage);	
+							queueModuleInstance.doQueue(redemptionName);	
 							break;
 						case "eval":
 							eval(potentialRedemption.eval);
